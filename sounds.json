@@ -1,0 +1,17 @@
+[
+  {
+    "title": "River Sound",
+    "lat": 17.974547,
+    "lng": 102.529367,
+    "audio": "sounds/sound5.m4a",
+    "radius": 100
+  },  
+   {
+    "title": "Bird",
+    "lat": 17.923337,
+    "lng": 102.615725,
+    "audio": "sounds/sound2.wav",
+    "radius": 100
+  } 
+  
+]
