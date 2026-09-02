@@ -72,10 +72,31 @@ img {
     fetch('sounds2.json')
       .then(response => response.json())
       .then(locations => {
+        const coordinateCounts = {};
+        const OFFSET = 0.00002;
         locations.forEach((loc, index) => {
           loc.audioObj = new Audio(loc.audio);
-          const marker = L.marker([loc.lat, loc.lng]).addTo(map);
+          loc._played = false;
+          const coordinateKey = `${loc.lat},${loc.lng}`;
+          const duplicateNumber = coordinateCounts[coordinateKey] || 0;
+          coordinateCounts[coordinateKey] = duplicateNumber + 1;
 
+          const angle = duplicateNumber * (Math.PI / 3);
+          const distance = OFFSET * Math.ceil(duplicateNumber / 6);
+
+          const markerLat = loc.lat + Math.sin(angle) * distance;
+          const markerLng = loc.lng + Math.cos(angle) * distance;
+          // Store the adjusted coordinates
+          loc.markerLat = markerLat;
+          loc.markerLng = markerLng;
+
+          // Create the marker at the adjusted position
+          const marker = L.marker([markerLat, markerLng]).addTo(map);
+      
+          marker.bindTooltip(loc.title, {
+            direction: "top",
+            offset: [0, -10]
+          });
           marker.bindPopup(`
             <div style="max-width:300px">
 
@@ -113,10 +134,26 @@ img {
 
             </div>
           `);
+          marker.on('popupclose', function () {
+            loc.audioObj.pause();
+            loc.audioObj.currentTime = 0;
+          });
+          // Size the initial map to include every marker
+          if (locations.length > 0) {
+            const bounds = L.latLngBounds(
+              locations.map(loc => [
+                loc.markerLat ?? loc.lat,
+                loc.markerLng ?? loc.lng
+              ])
+            );
 
+            map.fitBounds(bounds, {
+              padding: [30, 30],
+              maxZoom: 16
+            });
+          }
 
-          // Optional: auto-trigger audio when user enters radius
-          loc._audio = new Audio(loc.audio);
+          // Optional: auto-trigger audio when user enters radiusv
           loc._played = false;
           // Store location globally so popup buttons can access it
           if (!window.locations) window.locations = {};
@@ -125,7 +162,7 @@ img {
           loc.checkDistance = function(userLat, userLng) {
             const dist = getDistance(userLat, userLng, loc.lat, loc.lng);
             if (dist < loc.radius && !loc._played) {
-              loc._audio.play();
+              loc.audioObj.play();
               loc._played = true;
             }
           };
