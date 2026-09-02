@@ -1,17 +1,25 @@
 [
   {
-    "title": "River Sound",
-    "lat": 17.974547,
-    "lng": 102.529367,
-    "audio": "sounds/sound5.m4a",
-    "radius": 100
+    "title": "River",
+    "lat": 17.923337,
+    "lng": 102.615725,
+    "audio": "sounds/sound0.wav",
+    "picture": "pics/pic0.jpeg",
+    "time": "08/08/2026  19:23:35",
+    "description": "This is a nice sound",
+    "feeling": "Positive",
+    "radius": 50
   },  
    {
     "title": "Bird",
     "lat": 17.923337,
     "lng": 102.615725,
-    "audio": "sounds/sound2.wav",
-    "radius": 100
+    "audio": "sounds/sound1.wav",
+    "picture": "pics/pic1.jpeg",
+    "time": "08/08/2026  19:23:35",
+    "description": "This is a nice sound",
+    "feeling": "Positive",
+    "radius": 50
   } 
   
 ]

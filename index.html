@@ -16,6 +16,12 @@
       width: 12px;
       height: 12px;
     }
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
   </style>
 </head>
 
@@ -23,6 +29,38 @@
   <div id="map"></div>
 
   <script>
+    function startAudio(audio) {
+      console.log("Starting audio:", audio.src);
+      audio.play();
+    }
+
+    function stopAudio(audio) {
+      console.log("Stopping audio:", audio.src);
+      audio.pause();
+      audio.currentTime = 0; // optional: reset to start
+    }
+
+    function toggleAudio(audio) {
+      if (audio.paused) {
+        console.log("Toggling: play", audio.src);
+        audio.play();
+      } else {
+        console.log("Toggling: pause", audio.src);
+        audio.pause();
+      }
+    }
+
+    function toggleDescription(id, btn) {
+      const div = document.getElementById(id);
+
+      if (div.style.display === "none") {
+        div.style.display = "block";
+        btn.innerText = "Hide Description";
+      } else {
+        div.style.display = "none";
+        btn.innerText = "Show Description";
+      }
+    }
     // Initialize map centered on Cork
     const map = L.map('map').setView([17.96, 102.61], 12.5);
 
@@ -31,20 +69,58 @@
     }).addTo(map);
 
     // Load sound locations from JSON
-    fetch('sounds.json')
+    fetch('sounds2.json')
       .then(response => response.json())
       .then(locations => {
-        locations.forEach(loc => {
+        locations.forEach((loc, index) => {
+          loc.audioObj = new Audio(loc.audio);
           const marker = L.marker([loc.lat, loc.lng]).addTo(map);
 
           marker.bindPopup(`
-            <strong>${loc.title}</strong><br>
-            <button onclick="playSound('${loc.audio}')">Play Sound</button>
+            <div style="max-width:300px">
+
+              <h3>${loc.title}</h3>
+
+              <img
+                src="${loc.picture}"
+              >
+              <p><strong>Feeling:</strong> ${loc.feeling}</p>
+
+              <button onclick="toggleDescription('desc-${index}', this)">
+                Show Description
+              </button>
+
+              <div
+                id="desc-${index}"
+                style="display:none; margin-top:10px;"
+              >
+                <p>${loc.description}</p>
+              </div>
+
+              <hr>
+
+              <button onclick="startAudio(window.locations[${index}].audioObj)">
+                Start
+              </button>
+
+              <button onclick="stopAudio(window.locations[${index}].audioObj)">
+                Stop
+              </button>
+
+              <button onclick="toggleAudio(window.locations[${index}].audioObj)">
+                Play / Pause
+              </button>
+
+            </div>
           `);
+
 
           // Optional: auto-trigger audio when user enters radius
           loc._audio = new Audio(loc.audio);
           loc._played = false;
+          // Store location globally so popup buttons can access it
+          if (!window.locations) window.locations = {};
+          window.locations[index] = loc;
 
           loc.checkDistance = function(userLat, userLng) {
             const dist = getDistance(userLat, userLng, loc.lat, loc.lng);
