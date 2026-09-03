@@ -18,17 +18,41 @@
       height: 12px;
     }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .map-logo {
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      width: 180px;
+      height: auto;
+      z-index: 1000;
+      background: white;
+      padding: 0px;
+      border-radius: 0px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+    /* Smaller logo on phones */
+    @media (max-width: 600px) {
+      .map-logo {
+        width: 90px;
+        top: 10px;
+        right: 10px;
+      }
 
   </style>
 </head>
 
 <body>
   <div id="map"></div>
-
+  <img
+    src="logo.png"
+    alt="Project logo"
+    class="map-logo"
+  >
   <script>
     function startAudio(audio) {
       console.log("Starting audio:", audio.src);
@@ -153,7 +177,7 @@ img {
             );
 
             map.fitBounds(bounds, {
-              padding: [30, 30],
+              padding: [15, 15],
               maxZoom: 16
             });
           }
