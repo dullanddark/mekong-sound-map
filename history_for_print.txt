@@ -1,0 +1,16 @@
+  974  python3 -m http.server 8000
+  975  python3 -m http.server 8000
+  976  git push origin main
+  977  git add .
+  978  git commit -m "update index2"
+  979  git remote -v
+  980  git commit -m "update index2"
+  981  git status
+  982  git remote -v
+  983  git branch -vv
+  984  git branch --set-upstream-to=origin/staging
+  985  git branch --set-upstream-to=origin
+  986  git remote get-url --push origin
+  987  git ls-remote origin refs/heads/staging
+  988  history -w ~/history.txt
+  989  history -w ~/history.txt
