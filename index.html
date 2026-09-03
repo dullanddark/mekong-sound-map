@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="icon" href="data:,">
   <meta charset="utf-8" />
   <title>Sound Map</title>
 
@@ -75,7 +76,10 @@ img {
         const coordinateCounts = {};
         const OFFSET = 0.00002;
         locations.forEach((loc, index) => {
-          loc.audioObj = new Audio(loc.audio);
+          //loc.audioObj = new Audio(loc.audio);
+          loc.audioObj = new Audio();
+          loc.audioObj.preload = "none";
+          loc.audioObj.src = loc.audio;
           loc._played = false;
           const coordinateKey = `${loc.lat},${loc.lng}`;
           const duplicateNumber = coordinateCounts[coordinateKey] || 0;
@@ -92,8 +96,9 @@ img {
 
           // Create the marker at the adjusted position
           const marker = L.marker([markerLat, markerLng]).addTo(map);
-      
-          marker.bindTooltip(loc.title, {
+          const soundName = loc.audio.split('/').pop();
+          //marker.bindTooltip(loc.title, {
+          marker.bindTooltip(soundName, {
             direction: "top",
             offset: [0, -10]
           });
