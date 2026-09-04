@@ -14,3 +14,25 @@
   987  git ls-remote origin refs/heads/staging
   988  history -w ~/history.txt
   989  history -w ~/history.txt
+
+Dissemination - 1000
+Consumables - 200
+Workshop rental - 150
+ Consultancy - 2650 - 450 400 100 200, 1500
+
+
+Aniket - 
+
+Presentation - 60
+
+Project management - 70
+
+Overall - 
+
+Emmanuel: 089 9444471
+Ignas
+Presentation - 60
+Project management - 
+
+
+CMPU1024

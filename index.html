@@ -121,8 +121,8 @@
           // Create the marker at the adjusted position
           const marker = L.marker([markerLat, markerLng]).addTo(map);
           const soundName = loc.audio.split('/').pop();
-          //marker.bindTooltip(loc.title, {
-          marker.bindTooltip(soundName, {
+          marker.bindTooltip(loc.title, {
+          //marker.bindTooltip(soundName, {
             direction: "top",
             offset: [0, -10]
           });
@@ -177,7 +177,7 @@
             );
 
             map.fitBounds(bounds, {
-              padding: [15, 15],
+              padding: [30, 30],
               maxZoom: 16
             });
           }
